@@ -1,17 +1,30 @@
-# Stage 1: Build
-FROM golang:1.20-alpine AS builder
+# Use Alpine Linux as the base image
+FROM alpine:edge
+
+# Set environment variables
+ENV GO_VERSION=1.24.0
+
+# Install dependencies
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    apk update && \
+    apk add --no-cache \
+    go=${GO_VERSION}-r0    
+
+# Set the working directory
 WORKDIR /app
-COPY go.mod go.sum ./
-RUN go mod download
+
+# Copy the Go project files into the container
 COPY . .
-RUN go build -o main .
 
-# Stage 2: Run
-FROM alpine:latest
-WORKDIR /app
-COPY --from=builder /app/main .
-COPY --from=builder /app/public ./public
-RUN apk add --no-cache ca-certificates
+# Download Go dependencies
+RUN go mod download
 
+# Build the Go project
+RUN go build -o main main.go
+
+# Expose the port your Go application will run on
 EXPOSE 8011
-CMD ["./main"]
+
+# Command to run your Go application
+CMD ["/app/main"]
