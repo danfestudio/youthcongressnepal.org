@@ -28,4 +28,4 @@ jobs:
             docker build -t youthcongressnepal .
             docker stop youthcongressnepal.org || true
             docker rm youthcongressnepal.org || true
-            docker run -d --name youthcongressnepal.org -p 8001:8001 youthcongressnepal
+            docker run -d --name youthcongressnepal.org -p 8011:8011 youthcongressnepal

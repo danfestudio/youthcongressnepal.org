@@ -13,5 +13,5 @@ COPY --from=builder /app/main .
 COPY --from=builder /app/public ./public
 RUN apk add --no-cache ca-certificates
 
-EXPOSE 8001
+EXPOSE 8011
 CMD ["./main"]

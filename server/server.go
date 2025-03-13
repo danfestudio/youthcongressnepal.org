@@ -30,7 +30,7 @@ func StartServer() {
 	RegisterRoutes(app)
 
 	// Start the server
-	port := ":8001"
+	port := ":8011"
 	log.Printf("Starting server on http://localhost%s", port)
 	if err := app.Listen(port); err != nil {
 		log.Fatalf("Failed to start server: %v", err)
